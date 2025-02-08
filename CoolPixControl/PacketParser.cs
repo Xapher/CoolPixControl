@@ -35,7 +35,7 @@ namespace CoolPixControl
         static bool isProcessing = false;
         static short requestResponse = 0;
         static bool pictureDownload = false;
-
+        static Dictionary<int, NikonOperationCodes> transactionIdCodes = new Dictionary<int, NikonOperationCodes>();
 
         public static void parsePacket(byte[] b, int length, NikonOperationCodes opcodes)//sender is used for reporting progress
         {
@@ -73,16 +73,18 @@ namespace CoolPixControl
                             if(imagesToGet.Count > 0)
                             {
                                 imagesToGet.RemoveAt(0);
+                                if(imagesToGet.Count > 0)
+                                {
+                                    transactionIdCodes.Add(transactionId + 1, NikonOperationCodes.RequestThumb);
+                                    Program.addPacketToQueue(new OperationPacket()
+                                    {
+                                        hostName = "",
+                                        packetType = 6,
+                                        operationCode = (UInt16)NikonOperationCodes.RequestThumb,
+                                        thumbId = imagesToGet[0]
+                                    }.getData());
+                                }
                             }
-
-
-                            Program.addPacketToQueue(new OperationPacket()
-                            {
-                                hostName = "",
-                                packetType = 6,
-                                operationCode = (UInt16)NikonOperationCodes.RequestThumb,
-                                thumbId = imagesToGet[0]
-                            }.getData());
                             break;
                     }
                     transactionId++;
@@ -112,7 +114,12 @@ namespace CoolPixControl
                     if(requestResponse > 2000)
                     {
                         Console.WriteLine("Picture");
-                        pictureDownload = true;
+                        Console.WriteLine(transactionIdCodes[transactionId]);
+                        if (transactionIdCodes[transactionId] == NikonOperationCodes.RequestThumb)
+                        {
+                            Console.WriteLine("Definate Pic");
+                            pictureDownload = true;//janky
+                        }
                     }
 
                     if (pictureDownload)
@@ -120,6 +127,7 @@ namespace CoolPixControl
                         Console.WriteLine("Found Beginning of picture");
                         operationOveride = true;
                         OverideType = NikonResponseCodes.DownloadData;
+                        transactionIdCodes.Remove(transactionId);
                         transactionId++;
                     }
 
@@ -145,6 +153,8 @@ namespace CoolPixControl
                 switch(OverideType)
                 {
                     case NikonResponseCodes.ListOfPictureID:
+                        pictureIds.Clear();
+                        imagesToGet.Clear();
                         //Skip start data packet
                         r.ReadInt32();
                         r.ReadInt32();
@@ -164,7 +174,7 @@ namespace CoolPixControl
                         for (int i = thumbnailIndex; i < pictureIds.Count; i++)
                         {
                             //Console.WriteLine(getIdAsHexString(id));
-                            if (!File.Exists(@"C:\TempThumbs\" + getIdAsHexString(pictureIds[i]) + ".jpg"))
+                            if (!File.Exists(Program.getThumbnailDir() + getIdAsHexString(pictureIds[i]) + ".jpg") && !imagesToGet.Contains(pictureIds[i]))
                             {
                                 imagesToGet.Add(pictureIds[i]);
                                 //break;
@@ -172,12 +182,12 @@ namespace CoolPixControl
                         }
 
 
-                        operationOveride = false;
+                        
                         //Program.addImages(pictureIds);
                         Console.WriteLine(pictureIds.Count);
 
 
-
+                        transactionIdCodes.Add(transactionId + 1, NikonOperationCodes.RequestThumb);
                         Program.addPacketToQueue(new OperationPacket()
                         {
                             hostName = "",
@@ -185,6 +195,9 @@ namespace CoolPixControl
                             operationCode = (UInt16)NikonOperationCodes.RequestThumb,
                             thumbId = imagesToGet[0]
                         }.getData());
+
+
+                        operationOveride = false;
                         transactionId++;
                         //((BackgroundWorker)sender).ReportProgress(0);//0 is add thumbs
                         break;
@@ -231,18 +244,21 @@ namespace CoolPixControl
                                 }
                             }
 
-                            File.WriteAllBytes(@"C:\TempThumbs\" + getIdAsHexString(imagesToGet[0]) + ".jpg", data.ToArray());
-                            isProcessing = false;
+                            Program.saveThumbnail(data, getIdAsHexString(imagesToGet[0]));
+
+                            
                             dataCode = 0;
                             dataType = 0;
                             dataLength = 0;
                             data.Clear();
                             imagesToGet.RemoveAt(0);
                             transactionId++;
+                            isProcessing = false;
                             if (imagesToGet.Count > 0)
                             {
                                 Thread.Sleep(100);
                                 Console.WriteLine("Downloading Next Image");
+                                transactionIdCodes.Add(transactionId, NikonOperationCodes.RequestThumb);
                                 //redo packet
                                 Program.addPacketToQueue(new OperationPacket()
                                 {
@@ -251,10 +267,12 @@ namespace CoolPixControl
                                     operationCode = (UInt16)NikonOperationCodes.RequestThumb,
                                     thumbId = imagesToGet[0]
                                 }.getData());
+                                operationOveride = false;
                                 break;
                             }
                             else
                             {
+                                Program.enableThumbChecker();
                                 operationOveride = false;
                                 isProcessing = false;
                                 transactionId++;
