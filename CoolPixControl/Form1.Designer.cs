@@ -36,6 +36,8 @@
             refreshPictureButton = new Button();
             splitContainer3 = new SplitContainer();
             splitContainer4 = new SplitContainer();
+            splitContainer5 = new SplitContainer();
+            label2 = new Label();
             pictureBox1 = new PictureBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             button3 = new Button();
@@ -45,7 +47,7 @@
             TTextThumbnailsSplitter = new SplitContainer();
             label1 = new Label();
             ThumnailPanel = new FlowLayoutPanel();
-            button2 = new Button();
+            DownloadFromThumbnail = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -63,6 +65,10 @@
             splitContainer4.Panel1.SuspendLayout();
             splitContainer4.Panel2.SuspendLayout();
             splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer5).BeginInit();
+            splitContainer5.Panel1.SuspendLayout();
+            splitContainer5.Panel2.SuspendLayout();
+            splitContainer5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ThumbnailDownloadSplitter).BeginInit();
@@ -117,6 +123,7 @@
             // 
             // splitContainer2
             // 
+            splitContainer2.BorderStyle = BorderStyle.Fixed3D;
             splitContainer2.Dock = DockStyle.Fill;
             splitContainer2.IsSplitterFixed = true;
             splitContainer2.Location = new Point(0, 0);
@@ -138,7 +145,7 @@
             refreshPictureButton.Dock = DockStyle.Top;
             refreshPictureButton.Location = new Point(0, 0);
             refreshPictureButton.Name = "refreshPictureButton";
-            refreshPictureButton.Size = new Size(79, 43);
+            refreshPictureButton.Size = new Size(75, 43);
             refreshPictureButton.TabIndex = 0;
             refreshPictureButton.Text = "Refresh Pictures";
             refreshPictureButton.UseVisualStyleBackColor = true;
@@ -158,8 +165,8 @@
             // splitContainer3.Panel2
             // 
             splitContainer3.Panel2.Controls.Add(ThumbnailDownloadSplitter);
-            splitContainer3.Size = new Size(717, 409);
-            splitContainer3.SplitterDistance = 551;
+            splitContainer3.Size = new Size(713, 405);
+            splitContainer3.SplitterDistance = 547;
             splitContainer3.TabIndex = 0;
             // 
             // splitContainer4
@@ -172,14 +179,43 @@
             // 
             // splitContainer4.Panel1
             // 
-            splitContainer4.Panel1.Controls.Add(pictureBox1);
+            splitContainer4.Panel1.Controls.Add(splitContainer5);
             // 
             // splitContainer4.Panel2
             // 
             splitContainer4.Panel2.Controls.Add(tableLayoutPanel1);
-            splitContainer4.Size = new Size(551, 409);
-            splitContainer4.SplitterDistance = 346;
+            splitContainer4.Size = new Size(547, 405);
+            splitContainer4.SplitterDistance = 342;
             splitContainer4.TabIndex = 0;
+            // 
+            // splitContainer5
+            // 
+            splitContainer5.Dock = DockStyle.Fill;
+            splitContainer5.IsSplitterFixed = true;
+            splitContainer5.Location = new Point(0, 0);
+            splitContainer5.Name = "splitContainer5";
+            splitContainer5.Orientation = Orientation.Horizontal;
+            // 
+            // splitContainer5.Panel1
+            // 
+            splitContainer5.Panel1.Controls.Add(label2);
+            // 
+            // splitContainer5.Panel2
+            // 
+            splitContainer5.Panel2.Controls.Add(pictureBox1);
+            splitContainer5.Size = new Size(547, 342);
+            splitContainer5.SplitterDistance = 25;
+            splitContainer5.TabIndex = 0;
+            // 
+            // label2
+            // 
+            label2.Dock = DockStyle.Fill;
+            label2.Location = new Point(0, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(547, 25);
+            label2.TabIndex = 0;
+            label2.Text = "Nikon Coolpix L840";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pictureBox1
             // 
@@ -187,7 +223,7 @@
             pictureBox1.Dock = DockStyle.Fill;
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(551, 346);
+            pictureBox1.Size = new Size(547, 313);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -208,7 +244,7 @@
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(551, 59);
+            tableLayoutPanel1.Size = new Size(547, 59);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // button3
@@ -216,7 +252,7 @@
             button3.Dock = DockStyle.Fill;
             button3.Location = new Point(3, 3);
             button3.Name = "button3";
-            button3.Size = new Size(296, 53);
+            button3.Size = new Size(293, 53);
             button3.TabIndex = 0;
             button3.Text = "Capture";
             button3.UseVisualStyleBackColor = true;
@@ -224,7 +260,7 @@
             // button4
             // 
             button4.Dock = DockStyle.Fill;
-            button4.Location = new Point(320, 3);
+            button4.Location = new Point(316, 3);
             button4.Name = "button4";
             button4.Size = new Size(98, 53);
             button4.TabIndex = 1;
@@ -234,7 +270,7 @@
             // button5
             // 
             button5.Dock = DockStyle.Fill;
-            button5.Location = new Point(442, 3);
+            button5.Location = new Point(438, 3);
             button5.Name = "button5";
             button5.Size = new Size(106, 53);
             button5.TabIndex = 2;
@@ -254,9 +290,9 @@
             // 
             // ThumbnailDownloadSplitter.Panel2
             // 
-            ThumbnailDownloadSplitter.Panel2.Controls.Add(button2);
-            ThumbnailDownloadSplitter.Size = new Size(162, 409);
-            ThumbnailDownloadSplitter.SplitterDistance = 348;
+            ThumbnailDownloadSplitter.Panel2.Controls.Add(DownloadFromThumbnail);
+            ThumbnailDownloadSplitter.Size = new Size(162, 405);
+            ThumbnailDownloadSplitter.SplitterDistance = 344;
             ThumbnailDownloadSplitter.TabIndex = 0;
             // 
             // TTextThumbnailsSplitter
@@ -274,8 +310,8 @@
             // TTextThumbnailsSplitter.Panel2
             // 
             TTextThumbnailsSplitter.Panel2.Controls.Add(ThumnailPanel);
-            TTextThumbnailsSplitter.Size = new Size(162, 348);
-            TTextThumbnailsSplitter.SplitterDistance = 29;
+            TTextThumbnailsSplitter.Size = new Size(162, 344);
+            TTextThumbnailsSplitter.SplitterDistance = 28;
             TTextThumbnailsSplitter.TabIndex = 0;
             // 
             // label1
@@ -283,7 +319,7 @@
             label1.Dock = DockStyle.Fill;
             label1.Location = new Point(0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(162, 29);
+            label1.Size = new Size(162, 28);
             label1.TabIndex = 0;
             label1.Text = "Pictures (On Camera)";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -291,21 +327,23 @@
             // ThumnailPanel
             // 
             ThumnailPanel.AutoScroll = true;
+            ThumnailPanel.BorderStyle = BorderStyle.Fixed3D;
             ThumnailPanel.Dock = DockStyle.Fill;
             ThumnailPanel.Location = new Point(0, 0);
             ThumnailPanel.Name = "ThumnailPanel";
-            ThumnailPanel.Size = new Size(162, 315);
+            ThumnailPanel.Size = new Size(162, 312);
             ThumnailPanel.TabIndex = 0;
             // 
-            // button2
+            // DownloadFromThumbnail
             // 
-            button2.Dock = DockStyle.Fill;
-            button2.Location = new Point(0, 0);
-            button2.Name = "button2";
-            button2.Size = new Size(162, 57);
-            button2.TabIndex = 0;
-            button2.Text = "Download Image";
-            button2.UseVisualStyleBackColor = true;
+            DownloadFromThumbnail.Dock = DockStyle.Fill;
+            DownloadFromThumbnail.Location = new Point(0, 0);
+            DownloadFromThumbnail.Name = "DownloadFromThumbnail";
+            DownloadFromThumbnail.Size = new Size(162, 57);
+            DownloadFromThumbnail.TabIndex = 0;
+            DownloadFromThumbnail.Text = "Download Image";
+            DownloadFromThumbnail.UseVisualStyleBackColor = true;
+            DownloadFromThumbnail.Click += DownloadFromThumbnail_Click;
             // 
             // Form1
             // 
@@ -334,6 +372,10 @@
             splitContainer4.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer4).EndInit();
             splitContainer4.ResumeLayout(false);
+            splitContainer5.Panel1.ResumeLayout(false);
+            splitContainer5.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer5).EndInit();
+            splitContainer5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
             ThumbnailDownloadSplitter.Panel1.ResumeLayout(false);
@@ -357,9 +399,8 @@
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem editToolStripMenuItem;
         private Button refreshPictureButton;
-        private PictureBox pictureBox1;
         private SplitContainer ThumbnailDownloadSplitter;
-        private Button button2;
+        private Button DownloadFromThumbnail;
         private TableLayoutPanel tableLayoutPanel1;
         private Button button3;
         private Button button4;
@@ -367,5 +408,8 @@
         private SplitContainer TTextThumbnailsSplitter;
         private Label label1;
         private FlowLayoutPanel ThumnailPanel;
+        private SplitContainer splitContainer5;
+        private Label label2;
+        private PictureBox pictureBox1;
     }
 }

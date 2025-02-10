@@ -3,10 +3,10 @@ A Winforms application to control A Nikno coolpix camera from your pc (Currently
 
 Current Features:
 -Camera Connection
-	-Starts a session (The display will go to live view)
--Image and File Retrieval
-	-Thumnail ID's Retrieval
-	-Thumbnail Retrieval
+\n\t-Starts a session (The display will go to live view)
+\n-Image and File Retrieval
+\n\t-Thumnail ID's Retrieval
+\n\t-Thumbnail Retrieval
 
 
 Planned Features:

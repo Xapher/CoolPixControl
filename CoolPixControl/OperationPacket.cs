@@ -11,7 +11,7 @@ namespace CoolPixControl
         byte[] unknownListPictureBytes = new byte[] { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0x0, 0x0 };
 
         public string thumbId { get; set; }
-
+        public int dataLegnth { get; set; }
         public override void buildBytes()
         {
             foreach (byte b in BitConverter.GetBytes(packetType))
@@ -20,7 +20,7 @@ namespace CoolPixControl
             }
 
 
-            foreach (byte b in BitConverter.GetBytes(1))
+            foreach (byte b in BitConverter.GetBytes(1))// Data phase. Always 1? i don't know
             {
                 data.Add(b);
             }
@@ -52,6 +52,20 @@ namespace CoolPixControl
                             data.Add(((byte)c));
                         }
                     }
+                    break;
+                case (UInt16)NikonOperationCodes.RequestFullPicture:
+                    foreach (byte b in PacketParser.getBytesFromFileID(Program.getSelectedThumbnail()))
+                    {
+                        data.Add(b);
+                    }
+                    foreach (byte b in BitConverter.GetBytes(dataLegnth))//I don't know, Possibly totalData lenghth, can only increast by 1.004? mB
+                    {
+                        data.Add(b);
+                    }
+                    data.Add(0);
+                    data.Add(0);
+                    data.Add(0xf0);//Max data length
+                    data.Add(0);
                     break;
             }
 

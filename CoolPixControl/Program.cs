@@ -1,8 +1,10 @@
+using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Xml.Linq;
 
 namespace CoolPixControl
 {
@@ -57,7 +59,7 @@ namespace CoolPixControl
         {
             if (optionJson["ThumbDir"].ToString().StartsWith("."))
             {
-                thumbnailDirectory = applicationDir + "Thumbnails\\";
+                thumbnailDirectory = applicationDir + optionJson["ThumbDir"].ToString() + "\\";
                 if (!Directory.Exists(thumbnailDirectory))
                 {
                     Directory.CreateDirectory(thumbnailDirectory);
@@ -65,7 +67,7 @@ namespace CoolPixControl
             }
             if (optionJson["SaveDir"].ToString().StartsWith("."))
             {
-                saveDirectory = applicationDir + "Picures\\";//Replace with NIKONL....
+                saveDirectory = applicationDir + optionJson["SaveDir"] .ToString() + "\\";//Replace with NIKONL....
                 if(!Directory.Exists(saveDirectory))
                 {
                     Directory.CreateDirectory(saveDirectory);
@@ -97,10 +99,9 @@ namespace CoolPixControl
 
                     for (int i = 0; i < readBytes; i++)
                     {
-                        Console.Write(buffer[i].ToString("X2") + " ");
+                        //Console.Write(buffer[i].ToString("X2") + " ");
                     }
-                    Console.WriteLine();
-
+                    //Console.WriteLine();
                     PacketParser.parsePacket(buffer, readBytes, NikonOperationCodes.RequestListOfPictures);
                     stream.Flush();
                     Thread.Sleep(20);
@@ -251,6 +252,30 @@ namespace CoolPixControl
         internal static string getThumbnailDir()
         {
             return thumbnailDirectory;
+        }
+
+
+        static string selectedThumb = "";
+
+        internal static string getSelectedThumbnail()
+        {
+            return selectedThumb;
+        }
+
+        internal static void setSelectedThumbnail(string name)
+        {
+            Console.WriteLine("Setting id to: " + name);
+            selectedThumb = name;
+        }
+
+        internal static void savePhoto(List<byte> data, string name)
+        {
+            File.WriteAllBytes(saveDirectory + name + ".jpg", data.ToArray());
+        }
+
+        internal static string getPhotoPath()
+        {
+            return saveDirectory + selectedThumb + ".jpg";
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CoolPixControl
         bool picCouldChange = false;
         private void Worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
-            if(e.ProgressPercentage == 0 && picCouldChange) // picture list could have changed. Needs to update Thumbnails
+            if (e.ProgressPercentage == 0 && picCouldChange) // picture list could have changed. Needs to update Thumbnails
             {
                 ThumnailPanel.Controls.Clear();
                 Program.addImages();
@@ -53,24 +53,26 @@ namespace CoolPixControl
                     p.Width = (int)(ThumnailPanel.Width * widthRatio);
                     p.Height = p.Width;
                     p.Name = PacketParser.getIdAsHexString(id);
-                    p.Click += (s, e) => {
+                    p.Click += (s, e) =>
+                    {
 
                         foreach (Control item in ThumnailPanel.Controls)
                         {
                             ((PictureBox)item).BorderStyle = BorderStyle.None;
                         }
-
+                        Program.setSelectedThumbnail(((PictureBox)s).Name);
                         ((PictureBox)s).BorderStyle = BorderStyle.Fixed3D;
                     };
                     p.SizeMode = PictureBoxSizeMode.Zoom;
                     ThumnailPanel.Controls.Add(p);
                 }
-                catch {
-                    Console.WriteLine("Something Went WRong");
+                catch
+                {
+                    Console.WriteLine("Something Went Wrong");
                 }
             }
-            
-               
+
+
         }
         private static void Form_FormClosed(object? sender, FormClosedEventArgs e)
         {
@@ -87,6 +89,21 @@ namespace CoolPixControl
         internal void restartThumbThread()
         {
             worker.RunWorkerAsync();
+        }
+
+        private void DownloadFromThumbnail_Click(object sender, EventArgs e)
+        {
+            ((Button)sender).Enabled = false;
+            PacketParser.addRequest(NikonOperationCodes.RequestFullPicture);
+            Program.addPacketToQueue(new OperationPacket()
+            {
+                hostName = "",
+                packetType = (int)TCPPacketType.RequestOperation,
+                operationCode = (UInt16)NikonOperationCodes.RequestFullPicture,
+                dataLegnth = 0
+            }.getData());
+
+
         }
     }
 }
