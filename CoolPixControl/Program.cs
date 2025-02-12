@@ -23,7 +23,7 @@ namespace CoolPixControl
         static JObject optionJson;
 
         static readonly string defaultJson = "{\"ThumbDir\":\"./Thumbnails/\", \"SaveDir\":\"./Pictures/\"}";
-
+        public static readonly int dataSize = 0x00f00000;//15?mb
         static string thumbnailDirectory = "", saveDirectory = "";
 
         [STAThread]
@@ -141,7 +141,7 @@ namespace CoolPixControl
             {
                 stream = streamClient.GetStream();
                 Console.WriteLine("Connected To Client");
-
+                PacketParser.addRequest(NikonOperationCodes.GetDeviceInfo);
                 await stream.WriteAsync(DefaultPackets.initPackets["SendGGUID"].getData());//Send and request GUID
                 stream.Flush();
                 Thread.Sleep(100);
@@ -219,8 +219,9 @@ namespace CoolPixControl
 
 
 
-        public static void addPacketToQueue(byte[] b)
+        public static void addPacketToQueue(byte[] b, NikonOperationCodes type)
         {
+            PacketParser.addRequest(type);
             packetQueue.Add(b);
         }
 
@@ -246,6 +247,7 @@ namespace CoolPixControl
 
         internal static void saveThumbnail(List<byte> data, string name)
         {
+            Console.WriteLine("Saving Thumbnail: " + PacketParser.getIdAsHexString(name));
             File.WriteAllBytes(thumbnailDirectory + name + ".jpg", data.ToArray());
         }
 
@@ -276,6 +278,11 @@ namespace CoolPixControl
         internal static string getPhotoPath()
         {
             return saveDirectory + selectedThumb + ".jpg";
+        }
+
+        internal static void enableDownloadButton()
+        {
+            form.enableDownloadButton();
         }
     }
 }

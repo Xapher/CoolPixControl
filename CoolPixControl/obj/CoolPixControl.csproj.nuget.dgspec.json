@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Github\\CoolPixControl\\CoolPixControl\\CoolPixControl.csproj": {}
+    "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\CoolPixControl.csproj": {}
   },
   "projects": {
-    "G:\\Github\\CoolPixControl\\CoolPixControl\\CoolPixControl.csproj": {
+    "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\CoolPixControl.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Github\\CoolPixControl\\CoolPixControl\\CoolPixControl.csproj",
+        "projectUniqueName": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\CoolPixControl.csproj",
         "projectName": "CoolPixControl",
-        "projectPath": "G:\\Github\\CoolPixControl\\CoolPixControl\\CoolPixControl.csproj",
+        "projectPath": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\CoolPixControl.csproj",
         "packagesPath": "C:\\Users\\Xapher\\.nuget\\packages\\",
-        "outputPath": "G:\\Github\\CoolPixControl\\CoolPixControl\\obj\\",
+        "outputPath": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\Xapher\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

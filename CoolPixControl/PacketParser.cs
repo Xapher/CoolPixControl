@@ -15,8 +15,6 @@ namespace CoolPixControl
 
         static int length = 0, code = 0, opCode = 0, connectionNum = 0;
         static int transactionId = 0;
-        static bool operationOveride = false;
-        static NikonResponseCodes OverideType = NikonResponseCodes.ListOfPictureID;
         static List<string> pictureIds = new List<string>();
 
         static string idBuilder = "";
@@ -35,144 +33,53 @@ namespace CoolPixControl
         static bool isProcessing = false;
         static short requestResponse = 0;
         static bool pictureDownload = false;
-        static Dictionary<int, NikonOperationCodes> transactionIdCodes = new Dictionary<int, NikonOperationCodes>();
         static int photoIteration = 1;
 
         static int readImageBytre = 0;
         static int imageLength = 0;
         static byte[] testData = new byte[4];
         static List<byte> pixFixer = new List<byte>();
-        static FileStream fs = new FileStream(@"G:\Github\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\Pictures\testFile", FileMode.OpenOrCreate);
-        static List<byte> tempData = new List<byte>();
-        public static void parsePacket(byte[] b, int length, NikonOperationCodes opcodes)//sender is used for reporting progress
+        //static FileStream fs = new FileStream(@"G:\Github\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\Pictures\testFile", FileMode.OpenOrCreate);
+        static int ReadData = 0;
+
+
+
+
+        
+        static List<NikonOperationCodes> lastRequestType = new List<NikonOperationCodes>();
+
+
+        static bool debugPacket = false;
+
+        //Send request. THEN, when request response is finished increase transactionID
+        public static void parsePacket(byte[] b, int byteLength, NikonOperationCodes opcodes)//sender is used for reporting progress
         {
             isProcessing = true;
             //check for any previous packet ending
             ms = new MemoryStream(b);
             r = new BinaryReader(ms);
 
+            Console.WriteLine("Reading Packet for :" + lastRequestType[0]);
 
-            Console.WriteLine(transactionIdCodes.Count);
-            if(!operationOveride && OverideType != NikonResponseCodes.DownloadPhoto)
+            if(debugPacket)
             {
-                length = r.ReadInt32();
-                code = r.ReadInt32();
-                //check code
-                if (code == 2 && connectionNum == 0)
+                for (int i = 0; i < byteLength; i++)
                 {
-                    Console.WriteLine("UID Response");
-                    connectionNum = r.ReadInt32();
+                    Console.Write(b[i].ToString("X2") + " ");
                 }
+                Console.WriteLine();
+            }
 
-                Console.WriteLine("Length: " + length);
-                Console.WriteLine("Packet Type: " + code);
-                Console.WriteLine("Connection Number: " + connectionNum);
-
-                if (code == 7)
-                {
-                    Console.WriteLine("Found Operation response");
-                    requestResponse = r.ReadInt16();
-                    Console.WriteLine(requestResponse.ToString("X2"));
-                    switch (requestResponse)
+            switch (lastRequestType[0])
+            {
+                case NikonOperationCodes.RequestListOfPictures:
+                    
+                    if(byteLength < 30)
                     {
-                        case 0:
-                            break;
-                        case (short)NikonResponseCodes.InvalidObjectHandle:
-                            Console.WriteLine("Invalid Object Handle?");
-                            Console.WriteLine("Images:" + imagesToGet.Count);
-                            if(imagesToGet.Count > 0)
-                            {
-                                imagesToGet.RemoveAt(0);
-                                if(imagesToGet.Count > 0)
-                                {
-                                    transactionIdCodes.Add(transactionId + 1, NikonOperationCodes.RequestThumb);
-                                    Program.addPacketToQueue(new OperationPacket()
-                                    {
-                                        hostName = "",
-                                        packetType = (int)TCPPacketType.RequestOperation,
-                                        operationCode = (UInt16)NikonOperationCodes.RequestThumb,
-                                        thumbId = imagesToGet[0]
-                                    }.getData());
-                                }
-                            }
-                            break;
+                        Console.WriteLine("Found response packet");
                     }
-                    transactionId++;
-                }
-                else if (code == 9)
-                {
-
-                    for (int i = 0; i < length; i++)
-                    {
-                        Console.Write(b[i].ToString("X2") + " ");
-                    }
-                    Console.WriteLine();
-
-
-                    Console.WriteLine("Found Request Response");
-                    r.ReadInt32();///Transid
-                    //Console.WriteLine(r.ReadInt16().ToString("X2"));
-                    requestResponse = r.ReadInt16();
-
-                    if(length %4 == 0)
-                    {
-                        Console.WriteLine(length);
-                        Console.WriteLine("Possible pic");
-                    }
-
-                    Console.WriteLine(requestResponse.ToString("X2"));
-                    if(transactionIdCodes.Count > 0)
-                    {
-                        if (transactionIdCodes[transactionId] == NikonOperationCodes.RequestThumb || transactionIdCodes[transactionId] == NikonOperationCodes.RequestFullPicture)
-                        {
-                            Console.WriteLine("Picture");
-                            Console.WriteLine(transactionIdCodes[transactionId]);
-                            Console.WriteLine("Definate Pic");
-                            pictureDownload = true;//janky
-                        }
-                    }
-
-                    if (pictureDownload)
-                    {
-                        Console.WriteLine("Found Beginning of picture");
-                        operationOveride = true;
-
-                        switch(transactionIdCodes[transactionId])
-                        {
-                            case NikonOperationCodes.RequestThumb:
-                                OverideType = NikonResponseCodes.DownloadData;
-                                break;
-                            case NikonOperationCodes.RequestFullPicture:
-                                OverideType = NikonResponseCodes.DownloadPhoto;
-                                break;
-                        }
-
-                        transactionIdCodes.Remove(transactionId);
-                        transactionId++;
-                    }
-
                     else
                     {
-                        switch (requestResponse)
-                        {
-                            case (Int16)NikonResponseCodes.ListOfPictureID:
-                                Console.WriteLine("Next Packet Containing some or all picture ids");
-                                operationOveride = true;
-                                OverideType = NikonResponseCodes.ListOfPictureID;
-                                transactionId++;
-                                break;
-
-                        }
-                    }
-                    
-                }
-                isProcessing = false;
-            }
-            else
-            {
-                switch(OverideType)
-                {
-                    case NikonResponseCodes.ListOfPictureID:
                         pictureIds.Clear();
                         imagesToGet.Clear();
                         //Skip start data packet
@@ -190,7 +97,7 @@ namespace CoolPixControl
                             }
                             pictureIds.Add(idBuilder);
                         }
-                        
+
                         for (int i = thumbnailIndex; i < pictureIds.Count; i++)
                         {
                             //Console.WriteLine(getIdAsHexString(id));
@@ -201,69 +108,90 @@ namespace CoolPixControl
                             }
                         }
 
-
-                        
                         //Program.addImages(pictureIds);
                         Console.WriteLine(pictureIds.Count);
 
 
-                        transactionIdCodes.Add(transactionId + 1, NikonOperationCodes.RequestThumb);
                         Program.addPacketToQueue(new OperationPacket()
                         {
                             hostName = "",
                             packetType = (int)TCPPacketType.RequestOperation,
                             operationCode = (UInt16)NikonOperationCodes.RequestThumb,
                             thumbId = imagesToGet[0]
-                        }.getData());
-
-
-                        operationOveride = false;
+                        }.getData(), NikonOperationCodes.RequestThumb);
+                        lastRequestType.RemoveAt(0);
                         transactionId++;
-                        //((BackgroundWorker)sender).ReportProgress(0);//0 is add thumbs
-                        break;
-                    case NikonResponseCodes.DownloadData:
-                        if(dataLength == 0)
+                    }
+                    //((BackgroundWorker)sender).ReportProgress(0);//0 is add thumbs
+                    break;
+                case NikonOperationCodes.RequestThumb:
+                    Console.WriteLine("Doewnloading thugm");
+                    if (dataLength == 0)
+                    {
+                        dataLength = r.ReadInt32();
+                    }
+                    if (dataCode == 0)
+                    {
+                        dataCode = r.ReadInt32();
+                    }
+                    if (dataType == 0)
+                    {
+                        dataType = r.ReadInt32();
+                    }
+
+                    if(dataCode != 12 || imagesToGet[0][0] == 0)//Pictures just don't work when the id begins with 0?? why? idk, i don't even know if they are pictures
+                    {
+                        Console.WriteLine("Found False Response Packet");
+                        dataLength = 0;
+                        dataCode = 0;
+                        dataType = 0;
+                        if (imagesToGet[0][0] == 0)
                         {
-                            dataLength = r.ReadInt32();
+                            imagesToGet.RemoveAt(0);
+                            lastRequestType.RemoveAt(0);
+                            //redo packet
+                            Program.addPacketToQueue(new OperationPacket()
+                            {
+                                hostName = "",
+                                packetType = (int)TCPPacketType.RequestOperation,
+                                operationCode = (UInt16)NikonOperationCodes.RequestThumb,
+                                thumbId = imagesToGet[0]
+                            }.getData(), NikonOperationCodes.RequestThumb);
                         }
-                        if (dataCode == 0)
+                    }
+                    else
+                    {
+                        Console.WriteLine("SHould dhl");
+                        Console.WriteLine("Image Size: " + dataLength);
+                        for (int i = (int)r.BaseStream.Position; i < byteLength; i++)
                         {
-                            dataCode = r.ReadInt32();
-                        }
-                        if(dataType == 0)
-                        {
-                            dataType = r.ReadInt32();
+                            data.Add(b[i]);
                         }
 
-
-
-
-                        for (int i = 0; i < length ; i++)
-                        {
-                            data.Add(r.ReadByte());
-                        }
                         tempIndex = 0;
                         endData[0] = 0;
                         for (int i = 0; i < endData.Length; i++)
                         {
-                            endData[i] = b[((length - 3) - 6) - ((endData.Length - 1) - i)];
+                            endData[i] = b[((byteLength - 3) - 6) - ((endData.Length - 1) - i)];
                         }
-
-                        
-
-
-                        if (endData.SequenceEqual(okOpPacket))
+                        Console.WriteLine(data.Count);
+                        if(data.Count < dataLength)
+                        {
+                            Console.WriteLine("Didn't get whole image");
+                            
+                            lastRequestType.RemoveAt(0);
+                            //redo packet
+                            Program.addPacketToQueue(new OperationPacket()
+                            {
+                                hostName = "",
+                                packetType = (int)TCPPacketType.RequestOperation,
+                                operationCode = (UInt16)NikonOperationCodes.RequestThumb,
+                                thumbId = imagesToGet[0]
+                            }.getData(), NikonOperationCodes.RequestThumb);
+                        }
+                        else
                         {
                             Console.WriteLine("Found End Of Packet");
-
-                            if (data[0] != 255)
-                            {
-                                for (int i = 0; i < 32; i++)
-                                {
-                                    data.RemoveAt(0);
-                                }
-                            }
-
                             Program.saveThumbnail(data, getIdAsHexString(imagesToGet[0]));
 
 
@@ -272,19 +200,13 @@ namespace CoolPixControl
                             dataLength = 0;
                             data.Clear();
                             imagesToGet.RemoveAt(0);
-                            isProcessing = false;
 
-                            transactionIdCodes.Remove(transactionId);
-
-
-                            
                             if (imagesToGet.Count > 0)
                             {
                                 transactionId++;
                                 Thread.Sleep(100);
                                 Console.WriteLine("Downloading Next Image");
-                                transactionIdCodes.Add(transactionId, NikonOperationCodes.RequestThumb);
-                                
+                                lastRequestType.RemoveAt(0);
                                 //redo packet
                                 Program.addPacketToQueue(new OperationPacket()
                                 {
@@ -292,71 +214,179 @@ namespace CoolPixControl
                                     packetType = (int)TCPPacketType.RequestOperation,
                                     operationCode = (UInt16)NikonOperationCodes.RequestThumb,
                                     thumbId = imagesToGet[0]
-                                }.getData());
-                                operationOveride = false;
+                                }.getData(), NikonOperationCodes.RequestThumb);
                                 break;
                             }
                             else
                             {
+                                lastRequestType.RemoveAt(0);
                                 Program.enableThumbChecker();
-                                operationOveride = false;
-                                isProcessing = false;
+
                                 transactionId++;
                             }
                         }
-                        break;
-                    case NikonResponseCodes.DownloadPhoto:
-                        if(imageLength == 0)
+                    }
+                    break;
+                case NikonOperationCodes.RequestFullPicture:
+                    if (dataLength == 0)
+                    {
+                        dataLength = r.ReadInt32();
+                    }
+                    if (dataCode == 0)
+                    {
+                        dataCode = r.ReadInt32();
+                    }
+                    if (dataType == 0)
+                    {
+                        dataType = r.ReadInt32();
+                    }
+                    if (dataCode != 12)//Pictures just don't work when the id begins with 0?? why? idk, i don't even know if they are pictures
+                    {
+                        Console.WriteLine("Found False Response Packet");
+                        dataLength = 0;
+                        dataCode = 0;
+                        dataType = 0;
+                        imageLength = 0;
+                    }
+                    else
+                    {
+                        r.BaseStream.Position = 0;  
+                        if (imageLength == 0)
                         {
                             //fs = new FileStream(Program.getPhotoPath(), FileMode.OpenOrCreate);
                             imageLength = r.ReadInt32();
                             r.ReadInt32();//Type
                             r.ReadInt32();//Transaction id'
+                            Console.WriteLine("Image Length: " + imageLength);
                         }
+                        
 
-                        for (int i = 0; i < length; i++)
+
+
+                        for (int i = (int)r.BaseStream.Position; i < byteLength; i++)
+                        {   if(ReadData < imageLength)
+                            {
+                                data.Add(b[i]);
+                                ReadData++;
+                            }
+                            if(ReadData >= imageLength)
+                            {
+                                break;
+                            }
+                        }
+                        readImageBytre += byteLength;
+                        Console.WriteLine("Current Read Length: " + ReadData);
+                        if (ReadData >= imageLength)
                         {
-                            tempData.Add(b[i]);
-                        }
-                        readImageBytre += length;
 
-                        if(readImageBytre < imageLength)
-                        { 
+
+                            Console.WriteLine("End");
+                            photoIteration = 0;
+
+                            readImageBytre = 0;
+                            Program.savePhoto(data, Program.getSelectedThumbnail());
+                            data.Clear();
+                            dataLength = 0;
+                            dataCode = 0;
+                            dataType = 0;
+                            transactionId++;
+                            Thread.Sleep(100);
+                            imageLength = 0;
+                            lastRequestType.RemoveAt(0);
+
+                            Program.addPacketToQueue(DefaultPackets.initPackets["GetPictureList"].getData(), NikonOperationCodes.RequestListOfPictures);
+                            //// ^ This is super janky, but it resets the "uploading" screen
+
+                            ReadData = 0;
+                            
+                            Program.enableDownloadButton();
+
+                            /*
+                             * 
+                            photoIteration++;
+                            lastRequestType.RemoveAt(0);
                             Program.addPacketToQueue(new OperationPacket()
                             {
                                 hostName = "",
                                 packetType = (int)TCPPacketType.RequestOperation,
                                 operationCode = (UInt16)NikonOperationCodes.RequestFullPicture,
-                                dataLegnth = 0x00f00000 * (photoIteration + 1)
-                            }.getData());
-                            photoIteration++;
+                                dataLegnth = ReadData
+                            }.getData(), NikonOperationCodes.RequestFullPicture);
+
+                             */
                         }
-                        else if(readImageBytre < 0x00f00000)
+                        else if (readImageBytre >= Program.dataSize) 
                         {
-
+                            
                         }
-                        else
+                    }
+
+
+
+
+
+
+
+                    
+                    break;
+                default:
+                    length = r.ReadInt32();
+                    code = r.ReadInt32();
+                    //check code
+                    if (code == 2 && connectionNum == 0)
+                    {
+                        Console.WriteLine("UID Response");
+                        connectionNum = r.ReadInt32();
+                    }
+
+                    Console.WriteLine("Length: " + length);
+                    Console.WriteLine("Packet Type: " + code);
+                    Console.WriteLine("Connection Number: " + connectionNum);
+
+                    if (code == 7)
+                    {
+                        Console.WriteLine("Found Operation response");
+                        requestResponse = r.ReadInt16();
+                        Console.WriteLine(requestResponse.ToString("X2"));
+                        switch (requestResponse)
                         {
-                            Console.WriteLine("End");
-                            //fs.Close();
-
-                            //pixFixer = new List<byte>(File.ReadAllBytes(Program.getPhotoPath()));
-
-                            for (int i = 0; i < 12; i++)
-                            {
-                                tempData.RemoveAt(0);
-                            }
-                            imageLength = 0;
-                            operationOveride = false;
-                            readImageBytre = 0;
-                            File.WriteAllBytes(Program.getPhotoPath(), tempData.ToArray());
-                            //Program.savePhoto(data, Program.getSelectedThumbnail());
-                            OverideType = NikonResponseCodes.DataBegin;
+                            case 0:
+                                break;
+                            case (short)NikonResponseCodes.InvalidObjectHandle:
+                                Console.WriteLine("Invalid Object Handle?");
+                                Console.WriteLine("Images:" + imagesToGet.Count);
+                                if (imagesToGet.Count > 0)
+                                {
+                                    imagesToGet.RemoveAt(0);
+                                    if (imagesToGet.Count > 0)
+                                    {
+                                        Program.addPacketToQueue(new OperationPacket()
+                                        {
+                                            hostName = "",
+                                            packetType = (int)TCPPacketType.RequestOperation,
+                                            operationCode = (UInt16)NikonOperationCodes.RequestThumb,
+                                            thumbId = imagesToGet[0]
+                                        }.getData(), NikonOperationCodes.RequestThumb);
+                                    }
+                                }
+                                break;
                         }
-                        break;
-                }
+                        transactionId++;
+                    }
+                    else if (code == 9)
+                    {
+                        Console.WriteLine("Found Request Response");
+                        r.ReadInt32();///Transid
+                        Console.WriteLine(r.ReadInt16().ToString("X2"));
+                        requestResponse = r.ReadInt16();
+                        Console.WriteLine(requestResponse.ToString("X4"));
+                        
+                    }
+                    isProcessing = false;
+                    lastRequestType.RemoveAt(0);
+                    break;
             }
-            
+
             
         }
 
@@ -408,7 +438,7 @@ namespace CoolPixControl
 
         internal static void addRequest(NikonOperationCodes type)
         {
-            transactionIdCodes.Add(transactionId, type);
+            lastRequestType.Add(type);
         }
     }
 }

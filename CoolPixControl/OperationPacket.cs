@@ -20,9 +20,12 @@ namespace CoolPixControl
             }
 
 
-            foreach (byte b in BitConverter.GetBytes(1))// Data phase. Always 1? i don't know
+            if (operationCode != (UInt16)NikonOperationCodes.EndDataTransfer)
             {
-                data.Add(b);
+                foreach (byte b in BitConverter.GetBytes(1))// Data phase. Always 1? i don't know
+                {
+                    data.Add(b);
+                }
             }
 
 
@@ -62,10 +65,16 @@ namespace CoolPixControl
                     {
                         data.Add(b);
                     }
-                    data.Add(0);
-                    data.Add(0);
-                    data.Add(0xf0);//Max data length
-                    data.Add(0);
+                    foreach (byte b in BitConverter.GetBytes(Program.dataSize))//Max Data Size in packet
+                    {
+                        data.Add(b);
+                    }
+                    break;
+                case (UInt16)NikonOperationCodes.EndDataTransfer:
+                    foreach (byte b in BitConverter.GetBytes(PacketParser.getTID() - 1))//end the Previous transaction
+                    {
+                        data.Add(b);
+                    }
                     break;
             }
 
