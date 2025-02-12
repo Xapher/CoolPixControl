@@ -1,29 +1,29 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\",
+  "WorkspaceRootPath": "G:\\Github\\CoolPixControl\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|c:\\users\\xapher\\desktop\\coolpixcontrol\\coolpixcontrol\\packetparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|g:\\github\\coolpixcontrol\\coolpixcontrol\\packetparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|solutionrelative:coolpixcontrol\\packetparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|c:\\users\\xapher\\desktop\\coolpixcontrol\\coolpixcontrol\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|g:\\github\\coolpixcontrol\\coolpixcontrol\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|solutionrelative:coolpixcontrol\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|c:\\users\\xapher\\desktop\\coolpixcontrol\\coolpixcontrol\\operationpacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|g:\\github\\coolpixcontrol\\coolpixcontrol\\operationpacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|solutionrelative:coolpixcontrol\\operationpacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|c:\\users\\xapher\\desktop\\coolpixcontrol\\coolpixcontrol\\nikonoperationcodes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|g:\\github\\coolpixcontrol\\coolpixcontrol\\nikonoperationcodes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|solutionrelative:coolpixcontrol\\nikonoperationcodes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|C:\\Users\\Xapher\\Desktop\\CoolPixControl\\coolpixcontrol\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|G:\\Github\\CoolPixControl\\coolpixcontrol\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|solutionrelative:coolpixcontrol\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|c:\\users\\xapher\\desktop\\coolpixcontrol\\coolpixcontrol\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|g:\\github\\coolpixcontrol\\coolpixcontrol\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{88F8ADE8-75F5-4641-8732-DD3558DB7954}|CoolPixControl\\CoolPixControl.csproj|solutionrelative:coolpixcontrol\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -43,50 +43,47 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "OperationPacket.cs",
-              "DocumentMoniker": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\OperationPacket.cs",
+              "DocumentMoniker": "G:\\Github\\CoolPixControl\\CoolPixControl\\OperationPacket.cs",
               "RelativeDocumentMoniker": "CoolPixControl\\OperationPacket.cs",
-              "ToolTip": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\OperationPacket.cs",
+              "ToolTip": "G:\\Github\\CoolPixControl\\CoolPixControl\\OperationPacket.cs",
               "RelativeToolTip": "CoolPixControl\\OperationPacket.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-11T23:15:26.22Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-11T23:15:26.22Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\Program.cs",
+              "DocumentMoniker": "G:\\Github\\CoolPixControl\\CoolPixControl\\Program.cs",
               "RelativeDocumentMoniker": "CoolPixControl\\Program.cs",
-              "ToolTip": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\Program.cs",
+              "ToolTip": "G:\\Github\\CoolPixControl\\CoolPixControl\\Program.cs",
               "RelativeToolTip": "CoolPixControl\\Program.cs",
               "ViewState": "AgIAAJgAAAAAAAAAAAAIwLoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T01:45:46.747Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-09T01:45:46.747Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "NikonOperationCodes.cs",
-              "DocumentMoniker": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\NikonOperationCodes.cs",
+              "DocumentMoniker": "G:\\Github\\CoolPixControl\\CoolPixControl\\NikonOperationCodes.cs",
               "RelativeDocumentMoniker": "CoolPixControl\\NikonOperationCodes.cs",
-              "ToolTip": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\NikonOperationCodes.cs",
+              "ToolTip": "G:\\Github\\CoolPixControl\\CoolPixControl\\NikonOperationCodes.cs",
               "RelativeToolTip": "CoolPixControl\\NikonOperationCodes.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T01:06:25.544Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-09T01:06:25.544Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "PacketParser.cs",
-              "DocumentMoniker": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\PacketParser.cs",
+              "DocumentMoniker": "G:\\Github\\CoolPixControl\\CoolPixControl\\PacketParser.cs",
               "RelativeDocumentMoniker": "CoolPixControl\\PacketParser.cs",
-              "ToolTip": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\PacketParser.cs",
+              "ToolTip": "G:\\Github\\CoolPixControl\\CoolPixControl\\PacketParser.cs",
               "RelativeToolTip": "CoolPixControl\\PacketParser.cs",
-              "ViewState": "AgIAABABAAAAAAAAAAAqwCsBAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAABABAAAAAAAAAAAqwCMBAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-09T01:05:22.205Z",
               "EditorCaption": ""
@@ -95,22 +92,18 @@
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\Form1.cs",
+              "DocumentMoniker": "G:\\Github\\CoolPixControl\\CoolPixControl\\Form1.cs",
               "RelativeDocumentMoniker": "CoolPixControl\\Form1.cs",
               "ToolTip": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\Form1.cs [Design]",
-              "RelativeToolTip": "CoolPixControl\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-08T19:14:42.903Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-02-08T19:14:42.903Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "ApplicationConfiguration.g.cs",
               "DocumentMoniker": "C:\\Users\\Xapher\\AppData\\Local\\Temp\\.vsdbgsrc\\e82ff80ed9c33c9d5f6d870ad884cfd67bf5a0c1\\ApplicationConfiguration.g.cs",
-              "RelativeDocumentMoniker": "..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\e82ff80ed9c33c9d5f6d870ad884cfd67bf5a0c1\\ApplicationConfiguration.g.cs",
               "ToolTip": "C:\\Users\\Xapher\\AppData\\Local\\Temp\\.vsdbgsrc\\e82ff80ed9c33c9d5f6d870ad884cfd67bf5a0c1\\ApplicationConfiguration.g.cs",
-              "RelativeToolTip": "..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\e82ff80ed9c33c9d5f6d870ad884cfd67bf5a0c1\\ApplicationConfiguration.g.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAtwA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-08T20:02:04.845Z"
@@ -119,14 +112,13 @@
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "Form1.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\Form1.Designer.cs",
+              "DocumentMoniker": "G:\\Github\\CoolPixControl\\CoolPixControl\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "CoolPixControl\\Form1.Designer.cs",
-              "ToolTip": "C:\\Users\\Xapher\\Desktop\\CoolPixControl\\CoolPixControl\\Form1.Designer.cs",
+              "ToolTip": "G:\\Github\\CoolPixControl\\CoolPixControl\\Form1.Designer.cs",
               "RelativeToolTip": "CoolPixControl\\Form1.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-08T19:15:00.103Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-08T19:15:00.103Z"
             }
           ]
         }

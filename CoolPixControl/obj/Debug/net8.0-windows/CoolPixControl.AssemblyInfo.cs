@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoolPixControl")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc30b929e61d7f87dc0f725aeb29bcb7862aed2c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fd2ad04d0db8c3ce0980549551c02111c07ad91")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoolPixControl")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoolPixControl")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
