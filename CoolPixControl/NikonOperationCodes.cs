@@ -1,5 +1,6 @@
 ﻿public enum NikonOperationCodes
 {
+    JankyEnd = 0,
     OpenSession = 0x1002,
     GetDeviceInfo = 0x1001,
     SyncDate = 0x1016,

@@ -4,65 +4,31 @@ namespace CoolPixControl
 {
     public partial class Form1 : Form
     {
-        BackgroundWorker worker = new BackgroundWorker(), reEnableDownload = new BackgroundWorker();
+        readonly char check = (char)0x2713;
+
         public Form1()
         {
-            worker.DoWork += Worker_DoWork;
-            worker.WorkerReportsProgress = true;
-            worker.ProgressChanged += Worker_ProgressChanged;
-            worker.WorkerSupportsCancellation = true;
-
-            reEnableDownload.DoWork += ReEnableDownload_DoWork;
-            reEnableDownload.RunWorkerCompleted += ReEnableDownload_RunWorkerCompleted;
-            reEnableDownload.RunWorkerAsync();
-
-
             FormClosed += Form_FormClosed;
-
-
-            worker.RunWorkerAsync();
             InitializeComponent();
-        }
 
-        private void ReEnableDownload_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
-        {
-            BeginInvoke(() => {
-                DownloadFromThumbnail.Enabled = true;
-            });
-            
-        }
-
-        private void ReEnableDownload_ProgressChanged(object? sender, ProgressChangedEventArgs e)
-        {
-            
-        }
-
-        private void ReEnableDownload_DoWork(object? sender, DoWorkEventArgs e)
-        {
+            checkLogging();
 
         }
 
-        bool picCouldChange = false;
-        private void Worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
+        void checkLogging()
         {
-            if (e.ProgressPercentage == 0 && picCouldChange) // picture list could have changed. Needs to update Thumbnails
+            if (Program.loggingEnabled())
             {
-                ThumnailPanel.Controls.Clear();
-                Program.addImages();
-                picCouldChange = false;
+                enabledToolStripMenuItem.Text = "Enable " + check;
+                disabledToolStripMenuItem.Text = "Disable";
+            }
+            else
+            {
+                enabledToolStripMenuItem.Text = "Enable ";
+                disabledToolStripMenuItem.Text = "Disable" + check;
             }
         }
 
-        private void Worker_DoWork(object? sender, DoWorkEventArgs e)
-        {
-            while (Program.isRunning)
-            {
-                Thread.Sleep(15000);
-                ((BackgroundWorker)sender).ReportProgress(0);
-            }
-        }
-
-        string tempName = "";
         float widthRatio = 0.4f;
         internal void addThumbnail(string id)
         {
@@ -75,7 +41,7 @@ namespace CoolPixControl
                     p.Image = Bitmap.FromFile(Program.getThumbnailDir() + PacketParser.getIdAsHexString(id) + ".jpg");
                     p.Width = (int)(ThumnailPanel.Width * widthRatio);
                     p.Height = p.Width;
-                    p.Name = PacketParser.getIdAsHexString(id);
+                    p.Name = id;
                     p.Click += (s, e) =>
                     {
 
@@ -83,7 +49,7 @@ namespace CoolPixControl
                         {
                             ((PictureBox)item).BorderStyle = BorderStyle.None;
                         }
-                        Program.setSelectedThumbnail(((PictureBox)s).Name);
+                        Program.setSelectedThumbnail(PacketParser.getIdAsHexString(((PictureBox)s).Name), ((PictureBox)s).Name);
                         ((PictureBox)s).BorderStyle = BorderStyle.Fixed3D;
                     };
                     p.SizeMode = PictureBoxSizeMode.Zoom;
@@ -104,19 +70,32 @@ namespace CoolPixControl
         }
         private void refreshPictures(object sender, EventArgs e)
         {
-            picCouldChange = true;
-            worker.CancelAsync();
+            refreshPictureButton.Enabled = false;
+            DownloadFromThumbnail.Enabled = false;
             Program.addPacketToQueue(DefaultPackets.initPackets["GetPictureList"].getData(), NikonOperationCodes.RequestListOfPictures);
         }
 
         internal void restartThumbThread()
         {
-            worker.RunWorkerAsync();
+            BeginInvoke(() =>
+            {
+                enableButtons();
+                ThumnailPanel.Controls.Clear();
+                Program.addImages();
+            });
         }
 
         private void DownloadFromThumbnail_Click(object sender, EventArgs e)
         {
             ((Button)sender).Enabled = false;
+            refreshPictureButton.Enabled = false;
+
+            foreach (Control co in ThumnailPanel.Controls)
+            {
+                co.Enabled = false;
+            }
+
+
             Program.addPacketToQueue(new OperationPacket()
             {
                 hostName = "",
@@ -128,9 +107,57 @@ namespace CoolPixControl
 
 
 
-        public void enableDownloadButton()
+        public void enableButtons()
         {
-            reEnableDownload.RunWorkerAsync();
+            BeginInvoke(() =>
+            {
+                DownloadFromThumbnail.Enabled = true;
+                refreshPictureButton.Enabled = true;
+                foreach (Control co in ThumnailPanel.Controls)
+                {
+                    co.Enabled = true;
+                }
+            });
+        }
+
+        internal void UpdateCameraName(string v)
+        {
+            BeginInvoke(() =>
+            {
+                CameraConnection.Text = v;
+            });
+        }
+
+
+        public void updateProgress(int prog)
+        {
+            BeginInvoke(() =>
+            {
+                ActionProgress.Value = prog;
+            });
+
+        }
+
+        private void directoriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OptionsForm form = new OptionsForm();
+        }
+
+        private void enabledToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.enableLogging();
+            checkLogging();
+        }
+
+        private void disabledToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.disableLogging();
+            checkLogging();
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

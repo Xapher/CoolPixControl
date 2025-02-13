@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic.Logging;
 using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
@@ -20,9 +21,12 @@ namespace CoolPixControl
         static Form1 form;
         static readonly string applicationDir = Application.ExecutablePath.Replace(Path.GetFileName(Application.ExecutablePath), "");
         static string optionFileLoc = Application.ExecutablePath.Replace(Path.GetFileName(Application.ExecutablePath), "CoolPixOptions.json");
+        
+
+
         static JObject optionJson;
 
-        static readonly string defaultJson = "{\"ThumbDir\":\"./Thumbnails/\", \"SaveDir\":\"./Pictures/\"}";
+        static readonly string defaultJson = "{\"ThumbDir\":\"./Thumbnails/\", \"SaveDir\":\"./Pictures/\", \"Logging\":0}";
         public static readonly int dataSize = 0x00f00000;//15?mb
         static string thumbnailDirectory = "", saveDirectory = "";
 
@@ -53,40 +57,48 @@ namespace CoolPixControl
 
         }
 
-        
+
 
         private static void checkOptionsFile()
         {
             if (optionJson["ThumbDir"].ToString().StartsWith("."))
             {
-                thumbnailDirectory = applicationDir + optionJson["ThumbDir"].ToString() + "\\";
+                thumbnailDirectory = applicationDir + optionJson["ThumbDir"].ToString().Replace("./", "").Replace("/", "") + "\\";
                 if (!Directory.Exists(thumbnailDirectory))
                 {
                     Directory.CreateDirectory(thumbnailDirectory);
                 }
             }
+            else
+            {
+                thumbnailDirectory = optionJson["ThumbDir"].ToString();
+            }
             if (optionJson["SaveDir"].ToString().StartsWith("."))
             {
-                saveDirectory = applicationDir + optionJson["SaveDir"] .ToString() + "\\";//Replace with NIKONL....
-                if(!Directory.Exists(saveDirectory))
+                saveDirectory = applicationDir + optionJson["SaveDir"].ToString().Replace("./", "").Replace("/", "") + "\\";//Replace with NIKONL....
+                if (!Directory.Exists(saveDirectory))
                 {
                     Directory.CreateDirectory(saveDirectory);
                 }
-                
+
+            }
+            else
+            {
+                saveDirectory = optionJson["SaveDir"].ToString();
             }
         }
 
         public static bool isRunning = true;//Used to prevent background threads from continuing after application closed
 
-        
+
 
         static byte[] buffer;
         static int readBytes = 0;
 
         static async void initializeTCP()
         {
-            
-            while(stream == null && isRunning)
+
+            while (stream == null && isRunning)
             {
                 //do nothing while stream isn't connected
             }
@@ -96,19 +108,25 @@ namespace CoolPixControl
                 try
                 {
                     readBytes = await stream.ReadAsync(buffer, 0, (int)streamClient.ReceiveBufferSize);
-
-                    for (int i = 0; i < readBytes; i++)
+                    if (loggingEnabled())
                     {
-                        //Console.Write(buffer[i].ToString("X2") + " ");
+                        Logger.log("New Read packet:\n");
+                        for (int i = 0; i < readBytes; i++)
+                        {
+                            Logger.appendLogToLine(buffer[i].ToString("X2") + " ");
+                        }
                     }
-                    //Console.WriteLine();
                     PacketParser.parsePacket(buffer, readBytes, NikonOperationCodes.RequestListOfPictures);
                     stream.Flush();
                     Thread.Sleep(20);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    if (loggingEnabled())
+                    {
+                        Logger.log(e.Message);
+                        Logger.log(e.StackTrace.ToString());
+                    }
                 }
             }
             if (stream != null)
@@ -122,35 +140,32 @@ namespace CoolPixControl
         static async void InitCameraConnection()
         {
             streamClient = new TcpClient();//Connect to the camera
-            while(isRunning)
+            while (isRunning)
             {
                 streamClient = new TcpClient();//Connect to the camera
                 if (streamClient.ConnectAsync("192.168.1.1", 15740).Wait(100))
                 {
-                    Console.WriteLine("Connected");
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("Not conneted Trying again");
-                    Console.WriteLine(isRunning);
+                    Thread.Sleep(150);
                 }
-                
+
             }
+
             if (streamClient.Connected)
             {
                 stream = streamClient.GetStream();
-                Console.WriteLine("Connected To Client");
+                Logger.log("Connected To Client");
                 PacketParser.addRequest(NikonOperationCodes.GetDeviceInfo);
                 await stream.WriteAsync(DefaultPackets.initPackets["SendGGUID"].getData());//Send and request GUID
                 stream.Flush();
                 Thread.Sleep(100);
 
-                Console.WriteLine("Sent GUID");
-                while (true)// While Connection number is unknown
+                Logger.log("Sent GUID");
+                while (true && isRunning)// While Connection number is unknown
                 {
-                    Console.WriteLine(PacketParser.getConNum());
-
                     if (PacketParser.getConNum() != 0)
                     {
                         break;
@@ -162,8 +177,7 @@ namespace CoolPixControl
 
                 connectionClient = new TcpClient("192.168.1.1", 15740);//Connect to the second stream? WHat does this do on the camera side
                 conStream = connectionClient.GetStream();
-
-                Console.WriteLine("Got Connection Number: " + PacketParser.getConNum() + " - Sending connection Request");
+                Logger.log("Got Connection Number: " + PacketParser.getConNum() + " - Sending connection Request");
 
                 await conStream.WriteAsync(DefaultPackets.initPackets["Request Connection"].getData());//Request connection on second stream. What even
                 conStream.Flush();
@@ -174,12 +188,11 @@ namespace CoolPixControl
                 stream.Flush();
                 Thread.Sleep(100);
 
-
                 await stream.WriteAsync(DefaultPackets.initPackets["OpenSession"].getData());//Starts session on camera
                 Thread.Sleep(100);
-                Console.Clear();
-                Console.WriteLine("Session Opened, Camera should be on.");
-                Console.WriteLine(optionFileLoc);
+                Logger.log("Session Opened, Camera should be on.");
+                Logger.log(optionFileLoc);
+                form.UpdateCameraName("Nikon Coolpix L840");//Means it's connected and session has started. Hard coded to L840 for now due to only camera i have
                 //Request second connection. Why, idk that's just what it does        
             }
         }
@@ -208,11 +221,11 @@ namespace CoolPixControl
                     }
 
                 }
-                catch(Exception e2)
+                catch (Exception e2)
                 {
-                    Console.WriteLine(e2.Message);
+                    //Logger.log(e2.Message);
                 }
-                
+
             }
 
         }
@@ -227,7 +240,6 @@ namespace CoolPixControl
 
         internal static void addImages()
         {
-            Console.WriteLine("Adding Images");
             foreach (string id in PacketParser.getImageIds())
             {
                 form.addThumbnail(id);
@@ -237,17 +249,27 @@ namespace CoolPixControl
 
         internal static void Stop()
         {
+            addPacketToQueue(new OperationPacket() {
+                hostName = "",
+                packetType = (int)TCPPacketType.RequestOperation,
+                operationCode = (UInt16)NikonOperationCodes.CloseSession
+            }.getData(), NikonOperationCodes.JankyEnd);//try to end session on camera
             isRunning = false;
+
+            if (loggingEnabled())
+            {
+                Logger.saveLog();
+            }
         }
 
         internal static void enableThumbChecker()
         {
-            form.restartThumbThread(); 
+            form.restartThumbThread();
         }
 
         internal static void saveThumbnail(List<byte> data, string name)
         {
-            Console.WriteLine("Saving Thumbnail: " + PacketParser.getIdAsHexString(name));
+            Logger.log("Saving Thumbnail: " + name);
             File.WriteAllBytes(thumbnailDirectory + name + ".jpg", data.ToArray());
         }
 
@@ -257,32 +279,98 @@ namespace CoolPixControl
         }
 
 
-        static string selectedThumb = "";
+        static string selectedThumb = "", nonHexName = "";
 
         internal static string getSelectedThumbnail()
         {
             return selectedThumb;
         }
 
-        internal static void setSelectedThumbnail(string name)
+        internal static void setSelectedThumbnail(string name, string nonHex)
         {
-            Console.WriteLine("Setting id to: " + name);
+            Logger.log("Setting id to: " + name);
+            nonHexName = nonHex;
             selectedThumb = name;
         }
 
-        internal static void savePhoto(List<byte> data, string name)
+        internal static void savePhoto(List<byte> data)
         {
-            File.WriteAllBytes(saveDirectory + name + ".jpg", data.ToArray());
+            File.WriteAllBytes(saveDirectory + getPictureName(nonHexName) + ".jpg", data.ToArray());
         }
+
+
+
+        static byte[] intConverter = new byte[2];
+        static string getPictureName(string n)
+        {
+            intConverter[1] = (byte)n[1];
+            intConverter[0] = (byte)n[0];
+            //Hard Coded DSCN because i'm not 100% sure where it gets that from
+            return "DSCN" + BitConverter.ToUInt16(intConverter);
+        }
+
+
+
+
+
+
+
 
         internal static string getPhotoPath()
         {
-            return saveDirectory + selectedThumb + ".jpg";
+            return saveDirectory;
         }
 
         internal static void enableDownloadButton()
         {
-            form.enableDownloadButton();
+            form.enableButtons();
+        }
+
+        internal static string getLogPath()
+        {
+            return applicationDir + "Log-" + DateTime.Now.ToString().Replace("/", "-").Replace(":", "-") + ".txt";
+        }
+
+        internal static bool loggingEnabled()
+        {
+            return (int)optionJson["Logging"] == 1;
+        }
+
+        internal static void updateProgress(int v)
+        {
+            form.updateProgress(v);
+        }
+
+        internal static void updateThumbnailDirectory(string selectedPath)
+        {
+            thumbnailDirectory = selectedPath;
+            writeAndSaveOptions();
+        }
+
+        internal static void updateSaveDir(string v)
+        {
+            saveDirectory = v;
+            writeAndSaveOptions();
+        }
+
+
+        public static void writeAndSaveOptions()
+        {
+            optionJson["ThumbDir"] = thumbnailDirectory;
+            optionJson["SaveDir"] = saveDirectory;
+            File.WriteAllText(optionFileLoc, optionJson.ToString(Newtonsoft.Json.Formatting.None));
+        }
+
+        internal static void disableLogging()
+        {
+            optionJson["Logging"] = 0;
+            writeAndSaveOptions();
+        }
+
+        internal static void enableLogging()
+        {
+            optionJson["Logging"] = 1;
+            writeAndSaveOptions();
         }
     }
 }

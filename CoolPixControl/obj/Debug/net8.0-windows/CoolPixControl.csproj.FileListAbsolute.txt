@@ -34,17 +34,14 @@ G:\Github\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\CoolPixControl.
 G:\Github\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\CoolPixControl.deps.json
 G:\Github\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\CoolPixControl.runtimeconfig.json
 G:\Github\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\CoolPixControl.dll
-G:\Github\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\CoolPixControl.pdb
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.Form1.resources
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.csproj.GenerateResource.cache
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.GeneratedMSBuildEditorConfig.editorconfig
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.AssemblyInfoInputs.cache
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.AssemblyInfo.cs
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.csproj.CoreCompileInputs.cache
-G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.sourcelink.json
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.dll
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\refint\CoolPixControl.dll
-G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.pdb
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.genruntimeconfig.cache
 G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\ref\CoolPixControl.dll
 G:\Github\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
@@ -54,3 +51,5 @@ C:\Users\Xapher\Desktop\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\N
 C:\Users\Xapher\Desktop\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.csproj.AssemblyReference.cache
 C:\Users\Xapher\Desktop\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.sourcelink.json
 C:\Users\Xapher\Desktop\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixC.B7C80996.Up2Date
+G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.OptionsForm.resources
+G:\Github\CoolPixControl\CoolPixControl\obj\Debug\net8.0-windows\CoolPixControl.Properties.Resources.resources

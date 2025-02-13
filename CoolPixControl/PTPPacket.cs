@@ -21,13 +21,11 @@
         {
             data.Clear();
             buildBytes();
-            Console.WriteLine("Sending Packet:");
+            Logger.log("Sending Packet:\n");
             foreach (byte b in data)
             {
-                Console.Write(b.ToString("X2") + " ");
+                Logger.appendLogToLine(b.ToString("X2") + " ");
             }
-            Console.WriteLine();
-
             return data.ToArray();
         }
     }

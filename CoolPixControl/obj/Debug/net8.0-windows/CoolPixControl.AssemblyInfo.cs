@@ -11,13 +11,16 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("CoolPixControl")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Xapher")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fd2ad04d0db8c3ce0980549551c02111c07ad91")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("An application meant to reproduce the capabilities of the WMU android application" +
+    ".")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("0.1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78792925f1abf46dd3493384e3aab11dd48461ba")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoolPixControl")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoolPixControl")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("0.1")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/Xapher/CoolPixControl")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
 

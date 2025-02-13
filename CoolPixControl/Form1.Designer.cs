@@ -31,14 +31,21 @@
             splitContainer1 = new SplitContainer();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
+            quitToolStripMenuItem = new ToolStripMenuItem();
             editToolStripMenuItem = new ToolStripMenuItem();
+            directoriesToolStripMenuItem = new ToolStripMenuItem();
+            debuggingToolStripMenuItem = new ToolStripMenuItem();
+            enabledToolStripMenuItem = new ToolStripMenuItem();
+            disabledToolStripMenuItem = new ToolStripMenuItem();
             splitContainer2 = new SplitContainer();
             refreshPictureButton = new Button();
             splitContainer3 = new SplitContainer();
             splitContainer4 = new SplitContainer();
             splitContainer5 = new SplitContainer();
-            label2 = new Label();
-            pictureBox1 = new PictureBox();
+            CameraConnection = new Label();
+            splitContainer6 = new SplitContainer();
+            ActionProgress = new ProgressBar();
+            LivePreview = new PictureBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             button3 = new Button();
             button4 = new Button();
@@ -48,6 +55,7 @@
             label1 = new Label();
             ThumnailPanel = new FlowLayoutPanel();
             DownloadFromThumbnail = new Button();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -69,7 +77,11 @@
             splitContainer5.Panel1.SuspendLayout();
             splitContainer5.Panel2.SuspendLayout();
             splitContainer5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)splitContainer6).BeginInit();
+            splitContainer6.Panel1.SuspendLayout();
+            splitContainer6.Panel2.SuspendLayout();
+            splitContainer6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)LivePreview).BeginInit();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ThumbnailDownloadSplitter).BeginInit();
             ThumbnailDownloadSplitter.Panel1.SuspendLayout();
@@ -84,6 +96,7 @@
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.FixedPanel = FixedPanel.Panel1;
             splitContainer1.IsSplitterFixed = true;
             splitContainer1.Location = new Point(0, 0);
             splitContainer1.Name = "splitContainer1";
@@ -97,7 +110,7 @@
             // 
             splitContainer1.Panel2.Controls.Add(splitContainer2);
             splitContainer1.Size = new Size(800, 450);
-            splitContainer1.SplitterDistance = 37;
+            splitContainer1.SplitterDistance = 25;
             splitContainer1.TabIndex = 0;
             // 
             // menuStrip1
@@ -111,15 +124,52 @@
             // 
             // fileToolStripMenuItem
             // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { quitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
             // 
+            // quitToolStripMenuItem
+            // 
+            quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            quitToolStripMenuItem.Size = new Size(180, 22);
+            quitToolStripMenuItem.Text = "Quit";
+            quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
+            // 
             // editToolStripMenuItem
             // 
+            editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { directoriesToolStripMenuItem, debuggingToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.Size = new Size(39, 20);
             editToolStripMenuItem.Text = "Edit";
+            // 
+            // directoriesToolStripMenuItem
+            // 
+            directoriesToolStripMenuItem.Name = "directoriesToolStripMenuItem";
+            directoriesToolStripMenuItem.Size = new Size(130, 22);
+            directoriesToolStripMenuItem.Text = "Directories";
+            directoriesToolStripMenuItem.Click += directoriesToolStripMenuItem_Click;
+            // 
+            // debuggingToolStripMenuItem
+            // 
+            debuggingToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { enabledToolStripMenuItem, disabledToolStripMenuItem });
+            debuggingToolStripMenuItem.Name = "debuggingToolStripMenuItem";
+            debuggingToolStripMenuItem.Size = new Size(130, 22);
+            debuggingToolStripMenuItem.Text = "Logging";
+            // 
+            // enabledToolStripMenuItem
+            // 
+            enabledToolStripMenuItem.Name = "enabledToolStripMenuItem";
+            enabledToolStripMenuItem.Size = new Size(119, 22);
+            enabledToolStripMenuItem.Text = "Enabled";
+            enabledToolStripMenuItem.Click += enabledToolStripMenuItem_Click;
+            // 
+            // disabledToolStripMenuItem
+            // 
+            disabledToolStripMenuItem.Name = "disabledToolStripMenuItem";
+            disabledToolStripMenuItem.Size = new Size(119, 22);
+            disabledToolStripMenuItem.Text = "Disabled";
+            disabledToolStripMenuItem.Click += disabledToolStripMenuItem_Click;
             // 
             // splitContainer2
             // 
@@ -136,7 +186,7 @@
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.Controls.Add(splitContainer3);
-            splitContainer2.Size = new Size(800, 409);
+            splitContainer2.Size = new Size(800, 421);
             splitContainer2.SplitterDistance = 79;
             splitContainer2.TabIndex = 0;
             // 
@@ -165,7 +215,7 @@
             // splitContainer3.Panel2
             // 
             splitContainer3.Panel2.Controls.Add(ThumbnailDownloadSplitter);
-            splitContainer3.Size = new Size(713, 405);
+            splitContainer3.Size = new Size(713, 417);
             splitContainer3.SplitterDistance = 547;
             splitContainer3.TabIndex = 0;
             // 
@@ -184,8 +234,8 @@
             // splitContainer4.Panel2
             // 
             splitContainer4.Panel2.Controls.Add(tableLayoutPanel1);
-            splitContainer4.Size = new Size(547, 405);
-            splitContainer4.SplitterDistance = 342;
+            splitContainer4.Size = new Size(547, 417);
+            splitContainer4.SplitterDistance = 352;
             splitContainer4.TabIndex = 0;
             // 
             // splitContainer5
@@ -198,34 +248,64 @@
             // 
             // splitContainer5.Panel1
             // 
-            splitContainer5.Panel1.Controls.Add(label2);
+            splitContainer5.Panel1.Controls.Add(CameraConnection);
             // 
             // splitContainer5.Panel2
             // 
-            splitContainer5.Panel2.Controls.Add(pictureBox1);
-            splitContainer5.Size = new Size(547, 342);
+            splitContainer5.Panel2.Controls.Add(splitContainer6);
+            splitContainer5.Size = new Size(547, 352);
             splitContainer5.SplitterDistance = 25;
             splitContainer5.TabIndex = 0;
             // 
-            // label2
+            // CameraConnection
             // 
-            label2.Dock = DockStyle.Fill;
-            label2.Location = new Point(0, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(547, 25);
-            label2.TabIndex = 0;
-            label2.Text = "Nikon Coolpix L840";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
+            CameraConnection.BorderStyle = BorderStyle.FixedSingle;
+            CameraConnection.Dock = DockStyle.Fill;
+            CameraConnection.Location = new Point(0, 0);
+            CameraConnection.Name = "CameraConnection";
+            CameraConnection.Size = new Size(547, 25);
+            CameraConnection.TabIndex = 0;
+            CameraConnection.Text = "Connecting...";
+            CameraConnection.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // pictureBox1
+            // splitContainer6
             // 
-            pictureBox1.BorderStyle = BorderStyle.Fixed3D;
-            pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.Location = new Point(0, 0);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(547, 313);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            splitContainer6.Dock = DockStyle.Fill;
+            splitContainer6.FixedPanel = FixedPanel.Panel1;
+            splitContainer6.IsSplitterFixed = true;
+            splitContainer6.Location = new Point(0, 0);
+            splitContainer6.Name = "splitContainer6";
+            splitContainer6.Orientation = Orientation.Horizontal;
+            // 
+            // splitContainer6.Panel1
+            // 
+            splitContainer6.Panel1.Controls.Add(ActionProgress);
+            splitContainer6.Panel1MinSize = 5;
+            // 
+            // splitContainer6.Panel2
+            // 
+            splitContainer6.Panel2.Controls.Add(label2);
+            splitContainer6.Panel2.Controls.Add(LivePreview);
+            splitContainer6.Size = new Size(547, 323);
+            splitContainer6.SplitterDistance = 25;
+            splitContainer6.TabIndex = 0;
+            // 
+            // ActionProgress
+            // 
+            ActionProgress.Dock = DockStyle.Fill;
+            ActionProgress.Location = new Point(0, 0);
+            ActionProgress.Name = "ActionProgress";
+            ActionProgress.Size = new Size(547, 25);
+            ActionProgress.TabIndex = 0;
+            // 
+            // LivePreview
+            // 
+            LivePreview.Dock = DockStyle.Fill;
+            LivePreview.Location = new Point(0, 0);
+            LivePreview.Name = "LivePreview";
+            LivePreview.Size = new Size(547, 294);
+            LivePreview.TabIndex = 0;
+            LivePreview.TabStop = false;
             // 
             // tableLayoutPanel1
             // 
@@ -244,7 +324,7 @@
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(547, 59);
+            tableLayoutPanel1.Size = new Size(547, 61);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // button3
@@ -252,7 +332,7 @@
             button3.Dock = DockStyle.Fill;
             button3.Location = new Point(3, 3);
             button3.Name = "button3";
-            button3.Size = new Size(293, 53);
+            button3.Size = new Size(293, 55);
             button3.TabIndex = 0;
             button3.Text = "Capture";
             button3.UseVisualStyleBackColor = true;
@@ -262,7 +342,7 @@
             button4.Dock = DockStyle.Fill;
             button4.Location = new Point(316, 3);
             button4.Name = "button4";
-            button4.Size = new Size(98, 53);
+            button4.Size = new Size(98, 55);
             button4.TabIndex = 1;
             button4.Text = "Zoom -";
             button4.UseVisualStyleBackColor = true;
@@ -272,7 +352,7 @@
             button5.Dock = DockStyle.Fill;
             button5.Location = new Point(438, 3);
             button5.Name = "button5";
-            button5.Size = new Size(106, 53);
+            button5.Size = new Size(106, 55);
             button5.TabIndex = 2;
             button5.Text = "Zoom +";
             button5.UseVisualStyleBackColor = true;
@@ -291,8 +371,8 @@
             // ThumbnailDownloadSplitter.Panel2
             // 
             ThumbnailDownloadSplitter.Panel2.Controls.Add(DownloadFromThumbnail);
-            ThumbnailDownloadSplitter.Size = new Size(162, 405);
-            ThumbnailDownloadSplitter.SplitterDistance = 344;
+            ThumbnailDownloadSplitter.Size = new Size(162, 417);
+            ThumbnailDownloadSplitter.SplitterDistance = 354;
             ThumbnailDownloadSplitter.TabIndex = 0;
             // 
             // TTextThumbnailsSplitter
@@ -310,7 +390,7 @@
             // TTextThumbnailsSplitter.Panel2
             // 
             TTextThumbnailsSplitter.Panel2.Controls.Add(ThumnailPanel);
-            TTextThumbnailsSplitter.Size = new Size(162, 344);
+            TTextThumbnailsSplitter.Size = new Size(162, 354);
             TTextThumbnailsSplitter.SplitterDistance = 28;
             TTextThumbnailsSplitter.TabIndex = 0;
             // 
@@ -331,7 +411,7 @@
             ThumnailPanel.Dock = DockStyle.Fill;
             ThumnailPanel.Location = new Point(0, 0);
             ThumnailPanel.Name = "ThumnailPanel";
-            ThumnailPanel.Size = new Size(162, 312);
+            ThumnailPanel.Size = new Size(162, 322);
             ThumnailPanel.TabIndex = 0;
             // 
             // DownloadFromThumbnail
@@ -339,11 +419,22 @@
             DownloadFromThumbnail.Dock = DockStyle.Fill;
             DownloadFromThumbnail.Location = new Point(0, 0);
             DownloadFromThumbnail.Name = "DownloadFromThumbnail";
-            DownloadFromThumbnail.Size = new Size(162, 57);
+            DownloadFromThumbnail.Size = new Size(162, 59);
             DownloadFromThumbnail.TabIndex = 0;
             DownloadFromThumbnail.Text = "Download Image";
             DownloadFromThumbnail.UseVisualStyleBackColor = true;
             DownloadFromThumbnail.Click += DownloadFromThumbnail_Click;
+            // 
+            // label2
+            // 
+            label2.Dock = DockStyle.Fill;
+            label2.Font = new Font("Segoe UI", 20F);
+            label2.Location = new Point(0, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(547, 294);
+            label2.TabIndex = 1;
+            label2.Text = "Live Preview Will Be Here";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
@@ -376,7 +467,11 @@
             splitContainer5.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer5).EndInit();
             splitContainer5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            splitContainer6.Panel1.ResumeLayout(false);
+            splitContainer6.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer6).EndInit();
+            splitContainer6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)LivePreview).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
             ThumbnailDownloadSplitter.Panel1.ResumeLayout(false);
             ThumbnailDownloadSplitter.Panel2.ResumeLayout(false);
@@ -409,7 +504,15 @@
         private Label label1;
         private FlowLayoutPanel ThumnailPanel;
         private SplitContainer splitContainer5;
+        private Label CameraConnection;
+        private SplitContainer splitContainer6;
+        private ProgressBar ActionProgress;
+        private PictureBox LivePreview;
+        private ToolStripMenuItem directoriesToolStripMenuItem;
+        private ToolStripMenuItem quitToolStripMenuItem;
+        private ToolStripMenuItem debuggingToolStripMenuItem;
+        private ToolStripMenuItem enabledToolStripMenuItem;
+        private ToolStripMenuItem disabledToolStripMenuItem;
         private Label label2;
-        private PictureBox pictureBox1;
     }
 }

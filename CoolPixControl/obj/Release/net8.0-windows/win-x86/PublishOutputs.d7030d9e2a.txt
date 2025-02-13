@@ -1,0 +1,5 @@
+G:\Github\CoolPixControl\CoolPixControl\bin\Release\net8.0-windows\publish\win-x86\CoolPixControl.exe
+G:\Github\CoolPixControl\CoolPixControl\bin\Release\net8.0-windows\publish\win-x86\CoolPixControl.dll
+G:\Github\CoolPixControl\CoolPixControl\bin\Release\net8.0-windows\publish\win-x86\CoolPixControl.deps.json
+G:\Github\CoolPixControl\CoolPixControl\bin\Release\net8.0-windows\publish\win-x86\CoolPixControl.runtimeconfig.json
+G:\Github\CoolPixControl\CoolPixControl\bin\Release\net8.0-windows\publish\win-x86\Newtonsoft.Json.dll
