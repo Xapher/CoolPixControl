@@ -1,5 +1,5 @@
 # CoolPixControl
-A Winforms application to control A Nikno CoolPix camera from your pc (Currently known to work with L840 version, Unsure if it'll work with others)
+A Winforms application to control A CoolPix camera from your pc (Currently known to work with L840 version, Unsure if it'll work with others. I do not know if the other varients use the same codes/Networking protocols. I am not responible any possible damages.)
 
 
 
