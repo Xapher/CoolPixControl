@@ -61,7 +61,7 @@ namespace CoolPixControl
                 }
             }
 
-            if(lastRequestType.Count < 1)
+            if(lastRequestType.Count == 0)
             {
                 return;
             }
@@ -102,27 +102,34 @@ namespace CoolPixControl
 
                         for (int i = 0; i < pictureIds.Count; i++)
                         {
-                            
                             if (!File.Exists(Program.getThumbnailDir() + getIdAsHexString(pictureIds[i]) + ".jpg") && !imagesToGet.Contains(pictureIds[i]) && (pictureIds[i][3] == pictureTag || pictureIds[i][3] == videoTag))
                             {
                                 //Make sure the thumnail doesn't exist and it's already queued to download
                                 imagesToGet.Add(pictureIds[i]);
                             }
                         }
+                        Logger.log("Got past thumb Check");
                         lastRequestType.RemoveAt(0);
-                        Program.addPacketToQueue(new OperationPacket()
+                        if(imagesToGet.Count > 0)
                         {
-                            hostName = "",
-                            packetType = (int)TCPPacketType.RequestOperation,
-                            operationCode = (UInt16)NikonOperationCodes.RequestThumb,
-                            thumbId = imagesToGet[0]
-                        }.getData(), NikonOperationCodes.RequestThumb);
+                            Program.addPacketToQueue(new OperationPacket()
+                            {
+                                hostName = "",
+                                packetType = (int)TCPPacketType.RequestOperation,
+                                operationCode = (UInt16)NikonOperationCodes.RequestThumb,
+                                thumbId = imagesToGet[0]
+                            }.getData(), NikonOperationCodes.RequestThumb);
+                        }
+                        else
+                        {
+                            Program.enableThumbChecker();
+                        }
                         //Queue the first thumbnail to be downloaded
                         transactionId++;
                     }
                     break;
                 case NikonOperationCodes.RequestThumb:
-                    
+                    Logger.log("Adding thumb packet");
                     if (dataLength == 0)
                     {
                         dataLength = r.ReadInt32();
@@ -151,6 +158,7 @@ namespace CoolPixControl
                             lastRequestType.RemoveAt(0);
                             if(imagesToGet.Count > 0)
                             {
+                                
                                 Program.addPacketToQueue(new OperationPacket()
                                 {
                                     hostName = "",
@@ -201,7 +209,10 @@ namespace CoolPixControl
                             dataType = 0;
                             dataLength = 0;
                             data.Clear();
-                            imagesToGet.RemoveAt(0);
+                            if(imagesToGet.Count > 0)
+                            {
+                                imagesToGet.RemoveAt(0);
+                            }
                             Program.updateProgress((int)(100 * ((pictureCount - imagesToGet.Count) / (float)pictureCount)));
                             if (imagesToGet.Count > 0)
                             {

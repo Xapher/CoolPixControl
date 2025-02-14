@@ -108,9 +108,9 @@
               "Title": "PacketParser.cs",
               "DocumentMoniker": "G:\\Github\\CoolPixControl\\CoolPixControl\\PacketParser.cs",
               "RelativeDocumentMoniker": "CoolPixControl\\PacketParser.cs",
-              "ToolTip": "G:\\Github\\CoolPixControl\\CoolPixControl\\PacketParser.cs*",
-              "RelativeToolTip": "CoolPixControl\\PacketParser.cs*",
-              "ViewState": "AgIAALIAAAAAAAAAAAAwwMsAAAAeAAAAAAAAAA==",
+              "ToolTip": "G:\\Github\\CoolPixControl\\CoolPixControl\\PacketParser.cs",
+              "RelativeToolTip": "CoolPixControl\\PacketParser.cs",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAwwIkAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-09T01:05:22.205Z",
               "EditorCaption": ""
@@ -124,8 +124,7 @@
               "ToolTip": "G:\\Github\\CoolPixControl\\CoolPixControl\\Form1.cs [Design]",
               "RelativeToolTip": "CoolPixControl\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-08T19:14:42.903Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-02-08T19:14:42.903Z"
             },
             {
               "$type": "Document",
@@ -137,8 +136,7 @@
               "RelativeToolTip": "CoolPixControl\\Program.cs",
               "ViewState": "AgIAAK0AAAAAAAAAAAAIwBoAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T01:45:46.747Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-09T01:45:46.747Z"
             },
             {
               "$type": "Document",
@@ -173,8 +171,7 @@
               "RelativeToolTip": "CoolPixControl\\Form1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAHUAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-12T18:53:25.406Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-12T18:53:25.406Z"
             },
             {
               "$type": "Document",
@@ -232,8 +229,7 @@
               "RelativeToolTip": "CoolPixControl\\Form1.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-08T19:15:00.103Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-08T19:15:00.103Z"
             }
           ]
         }
