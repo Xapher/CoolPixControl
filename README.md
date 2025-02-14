@@ -11,9 +11,9 @@ https://github.com/user-attachments/assets/830e128b-7db9-4158-9077-4d7c8a93da40
 
 
 Tip:<br/>
-Please wait for "Negotiating..." prompt on the camera. This means the camera is set up, otherwise it will not work as it should.
+Please wait for "Negotiating..." prompt on the camera. This means the camera is set up, otherwise it will not work as it should.<br/>
 ![PleaseWait](https://github.com/user-attachments/assets/8cd90fae-9ece-4287-88b9-29da3531ffbf)
-
+<br/>
 
 Current Features:<br/>
 &ensp;-Camera Connection<br/>
