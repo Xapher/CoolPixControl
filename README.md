@@ -25,7 +25,7 @@ Current Features:<br/>
 
 Planned Features:<br/>
 &ensp;-Camera Connection<br/>
-&ensp;&ensp;&ensp;-Full Control with live preview (Limited to take picture, zoom in, and zoo out)<br/>
+&ensp;&ensp;&ensp;-Full Control with live preview (Limited to take picture, zoom in, and zoom out)<br/>
 &ensp;-Image and File Retrieval<br/>
 &ensp;&ensp;&ensp;-Retrieve Image After Taking Picture From this<br/>
 &ensp;&ensp;&ensp;-Batch Download (All Images)<br/>
