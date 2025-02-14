@@ -3,7 +3,6 @@ A Winforms application to control A Nikno CoolPix camera from your pc (Currently
 
 
 
-https://github.com/user-attachments/assets/82ac9dec-4511-4aec-bf12-852e2005bebb
 
 
 
