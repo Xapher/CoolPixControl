@@ -35,9 +35,9 @@ namespace CoolPixControl
         //static FileStream fs = new FileStream(@"G:\Github\CoolPixControl\CoolPixControl\bin\Debug\net8.0-windows\Pictures\testFile", FileMode.OpenOrCreate);
         static int ReadData = 0;
 
+        static int pictureCount = 0;
 
-
-
+        static byte pictureTag = 0x29, videoTag = 0x59;
         
         static List<NikonOperationCodes> lastRequestType = new List<NikonOperationCodes>();
 
@@ -102,7 +102,8 @@ namespace CoolPixControl
 
                         for (int i = 0; i < pictureIds.Count; i++)
                         {
-                            if (!File.Exists(Program.getThumbnailDir() + getIdAsHexString(pictureIds[i]) + ".jpg") && !imagesToGet.Contains(pictureIds[i]))
+                            
+                            if (!File.Exists(Program.getThumbnailDir() + getIdAsHexString(pictureIds[i]) + ".jpg") && !imagesToGet.Contains(pictureIds[i]) && (pictureIds[i][3] == pictureTag || pictureIds[i][3] == videoTag))
                             {
                                 //Make sure the thumnail doesn't exist and it's already queued to download
                                 imagesToGet.Add(pictureIds[i]);
@@ -137,14 +138,14 @@ namespace CoolPixControl
                         dataType = r.ReadInt32();
                     }
 
-                    if(dataCode != 12 || (imagesToGet[0][3] != 0x29 && imagesToGet[0][3] != 0x59))//Pictures just don't work when the id begins with 0x00?? why? idk, i don't even know if they are pictures
+                    if(dataCode != 12 || (imagesToGet[0][3] != pictureTag && imagesToGet[0][3] != videoTag))//Pictures just don't work when the id begins with 0x00?? why? idk, i don't even know if they are pictures
                     {
                         if (Program.loggingEnabled())
                             Logger.log("Found False Response Packet");
                         dataLength = 0;
                         dataCode = 0;
                         dataType = 0;
-                        if (imagesToGet[0][3] != 0x29 && imagesToGet[0][3] != 0x59)//skip id tstarting with 0x00
+                        if (imagesToGet[0][3] != pictureTag && imagesToGet[0][3] != videoTag)//skip id tstarting with 0x00
                         {
                             imagesToGet.RemoveAt(0);
                             lastRequestType.RemoveAt(0);
@@ -194,13 +195,14 @@ namespace CoolPixControl
                             if (Program.loggingEnabled())
                                 Logger.log("Saving: " + getIdAsHexString(imagesToGet[0]));
                             Program.saveThumbnail(data, getIdAsHexString(imagesToGet[0]));
-                            Program.updateProgress((int)(100 *   (((pictureIds.Count - 4) - imagesToGet.Count) / (float)(pictureIds.Count - 4))));//-4 because i think it lista ALL files? 4 respond with invalid handles
+                            pictureCount = pictureIds.Count;
+                            //-4 because i think it lista ALL files? 4 respond with invalid handles
                             dataCode = 0;
                             dataType = 0;
                             dataLength = 0;
                             data.Clear();
                             imagesToGet.RemoveAt(0);
-
+                            Program.updateProgress((int)(100 * ((pictureCount - imagesToGet.Count) / (float)pictureCount)));
                             if (imagesToGet.Count > 0)
                             {
                                 Thread.Sleep(100);

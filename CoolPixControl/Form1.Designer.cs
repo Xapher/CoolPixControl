@@ -45,6 +45,7 @@
             CameraConnection = new Label();
             splitContainer6 = new SplitContainer();
             ActionProgress = new ProgressBar();
+            label2 = new Label();
             LivePreview = new PictureBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             button3 = new Button();
@@ -55,7 +56,6 @@
             label1 = new Label();
             ThumnailPanel = new FlowLayoutPanel();
             DownloadFromThumbnail = new Button();
-            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -132,7 +132,7 @@
             // quitToolStripMenuItem
             // 
             quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            quitToolStripMenuItem.Size = new Size(180, 22);
+            quitToolStripMenuItem.Size = new Size(97, 22);
             quitToolStripMenuItem.Text = "Quit";
             quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
             // 
@@ -222,6 +222,7 @@
             // splitContainer4
             // 
             splitContainer4.Dock = DockStyle.Fill;
+            splitContainer4.FixedPanel = FixedPanel.Panel2;
             splitContainer4.IsSplitterFixed = true;
             splitContainer4.Location = new Point(0, 0);
             splitContainer4.Name = "splitContainer4";
@@ -298,6 +299,17 @@
             ActionProgress.Size = new Size(547, 25);
             ActionProgress.TabIndex = 0;
             // 
+            // label2
+            // 
+            label2.Dock = DockStyle.Fill;
+            label2.Font = new Font("Segoe UI", 20F);
+            label2.Location = new Point(0, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(547, 294);
+            label2.TabIndex = 1;
+            label2.Text = "Live Preview Will Be Here";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // LivePreview
             // 
             LivePreview.Dock = DockStyle.Fill;
@@ -330,6 +342,7 @@
             // button3
             // 
             button3.Dock = DockStyle.Fill;
+            button3.Enabled = false;
             button3.Location = new Point(3, 3);
             button3.Name = "button3";
             button3.Size = new Size(293, 55);
@@ -340,6 +353,7 @@
             // button4
             // 
             button4.Dock = DockStyle.Fill;
+            button4.Enabled = false;
             button4.Location = new Point(316, 3);
             button4.Name = "button4";
             button4.Size = new Size(98, 55);
@@ -350,6 +364,7 @@
             // button5
             // 
             button5.Dock = DockStyle.Fill;
+            button5.Enabled = false;
             button5.Location = new Point(438, 3);
             button5.Name = "button5";
             button5.Size = new Size(106, 55);
@@ -424,17 +439,6 @@
             DownloadFromThumbnail.Text = "Download Image";
             DownloadFromThumbnail.UseVisualStyleBackColor = true;
             DownloadFromThumbnail.Click += DownloadFromThumbnail_Click;
-            // 
-            // label2
-            // 
-            label2.Dock = DockStyle.Fill;
-            label2.Font = new Font("Segoe UI", 20F);
-            label2.Location = new Point(0, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(547, 294);
-            label2.TabIndex = 1;
-            label2.Text = "Live Preview Will Be Here";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
